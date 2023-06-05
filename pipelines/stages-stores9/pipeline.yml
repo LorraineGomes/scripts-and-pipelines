@@ -1,0 +1,36 @@
+name: Pipeline Stages Stores9
+ 
+on:
+   workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        php-version: '8.1'
+
+    - name: Copiando .ENV 
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Instalando dependências e pacotes
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Gerando chave artisan
+      run: php artisan key:generate
+
+    - name: Permissões nos diretórios
+      run: chmod -R 775 storage bootstrap/cache
+      
+    - uses: actions/checkout@v2
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+         cd /var/www
+         ./pipeline-stores9-stages.sh
