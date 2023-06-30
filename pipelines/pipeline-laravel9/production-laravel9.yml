@@ -1,0 +1,40 @@
+name: Pipeline Production (Lojas com integração)
+
+on:
+   workflow_dispatch:
+  
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        php-version: '8.1'
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Instalar dependências e pacotes!
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Gerar chave artisan
+      run: php artisan key:generate
+
+    - name: Permissões do diretório
+      run: chmod -R 775 storage bootstrap/cache
+      
+  run_pull:
+    needs: Build
+    name: run pull
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Executando Conexão SSH com o Servidor 
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST_LARAVEL9}}
+        username: ${{ secrets.SSH_USER2 }}
+        key: ${{ secrets.SSH_PRIVATE_KEY_L9 }}
+        port: ${{ secrets.PORT }}
+        script: cd ${{ secrets.WORK_DIR2 }} && ./pipeline-laravel9-production.sh

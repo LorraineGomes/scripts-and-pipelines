@@ -1,4 +1,4 @@
-name: Pipeline Stages Stores9
+name: Pipeline Stages (Lojas sem integração) # Stage1 Stage2 Stage3 Stage4 Stage5
  
 on:
    workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         php-version: '8.1'
 
@@ -23,8 +23,8 @@ jobs:
 
     - name: Permissões nos diretórios
       run: chmod -R 775 storage bootstrap/cache
-      
-    - uses: actions/checkout@v2
+      # Realiza conexão SSH
+    - uses: actions/checkout@v3
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
