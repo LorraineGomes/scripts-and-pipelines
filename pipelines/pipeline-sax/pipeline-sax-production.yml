@@ -1,0 +1,42 @@
+name: Pipeline Production Sax
+
+on:
+   workflow_dispatch:
+  
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        php-version: '8.1'
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Instalar dependẽncias e pacotes
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Gerar chave artisan
+      run: php artisan key:generate
+
+    - name: Permissões do diretório
+      run: chmod -R 775 storage bootstrap/cache
+      
+  run_pull:
+    needs: Build
+    name: run pull
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Executando Conexão SSH com o Servidor 
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        script: cd ${{ secrets.WORK_DIR }} && ./pipeline-sax-producion.sh
+    - name: Desconectando do servidor
+      run: exit
