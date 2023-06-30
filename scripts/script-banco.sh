@@ -14,7 +14,6 @@ DATABASES+=("loja2")
 DATABASES+=("loja3")
 DATABASES+=("loja4")
 DATABASES+=("loja5")
-DATABASES+=("loja6")
 
 # Cria o diretório de backup se não existir
 mkdir -p "$BACKUP_DIR"
