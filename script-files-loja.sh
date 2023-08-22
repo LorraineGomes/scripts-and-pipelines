@@ -1,35 +1,19 @@
 #!/bin/bash
 
-destino="/var/www/backup-arquivos"
+destino="/diretorio/lojas/arquivos/backups"
 
 # Array de sites para backup 
-LOJAS+=("altomax")
-LOJAS+=("atelie")
-LOJAS+=("autodoc24")
-LOJAS+=("azza")
-LOJAS+=("baratissimo")
-LOJAS+=("bellagi")
-LOJAS+=("bmtsr")
-LOJAS+=("bmtsrpy")
-LOJAS+=("champions")
-LOJAS+=("coloridamente")
-LOJAS+=("elchai")
-LOJAS+=("farmaciaamorpy")
-LOJAS+=("focoiluminacion")
-LOJAS+=("iguassugaragem")
-LOJAS+=("importauto")
-LOJAS+=("maferpy")
-LOJAS+=("paladino")
-LOJAS+=("paranadecor")
-LOJAS+=("paranadecorpy")
-LOJAS+=("phoera")
-LOJAS+=("prolight")
-LOJAS+=("prolightbr")
-LOJAS+=("prontoautomotores")
-LOJAS+=("royalcompany")
-LOJAS+=("smeg")
-LOJAS+=("solufoz")
-LOJAS+=("taticafoz")
+LOJAS+=("loja1")
+LOJAS+=("loja2")
+LOJAS+=("loja3")
+LOJAS+=("loja4")
+LOJAS+=("loja5")
+LOJAS+=("loja6")
+LOJAS+=("loja7")
+LOJAS+=("loja8")
+LOJAS+=("loja9")
+LOJAS+=("loja10")
+
 
 for i in "${LOJAS[@]}"
 do

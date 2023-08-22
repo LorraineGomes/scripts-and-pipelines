@@ -2,20 +2,17 @@
 set -e
 
 # Pipeline Lojas com Integração!
-store_array+=("altomax")
-store_array+=("biamerhi")
-store_array+=("casabo")
-store_array+=("casadivina")
-store_array+=("danielklein")
-store_array+=("drcell")
-store_array+=("genove")
-store_array+=("highend")
-store_array+=("pioneer")
-store_array+=("tecombras")
-store_array+=("telleconcell")
-store_array+=("tulliocosmeticos")
-store_array+=("victoria-store")
-store_array+=("worldofvape")
+store_array+=("loja1")
+store_array+=("loja2")
+store_array+=("loja3")
+store_array+=("loja4")
+store_array+=("loja5")
+store_array+=("loja6")
+store_array+=("loja7")
+store_array+=("loja8")
+store_array+=("loja9")
+store_array+=("loja10")
+
 
 echo "Deploying nas Lojas em Produção..."
 

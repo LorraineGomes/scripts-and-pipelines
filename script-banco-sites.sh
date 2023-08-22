@@ -1,77 +1,46 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Configurações
-DB_USER="lorraine"
-DB_PASSWORD="HEAZU6c)]1N)bm.4"
-BACKUP_PARENT_DIR="/var/www/backup-banco"
+DB_USER="login"
+DB_PASSWORD="senha"
+BACKUP_PARENT_DIR="/caminho/diretorio/backups"
+CURRENT_DATE=$(date +%Y%m%d)
+BACKUP_DIR="$BACKUP_PARENT_DIR/$CURRENT_DATE"
 
-# Nome da pasta baseada na data atual
-BACKUP_DIR="$BACKUP_PARENT_DIR/$(date +%Y%m%d)"
-
-# Lista de bases de dados para backup 
-DATABASES+=("atvbox")
-DATABASES+=("altomax")
-DATABASES+=("agfarmus")
-DATABASES+=("blocosceramicos")
-DATABASES+=("bebebistro")
-DATABASES+=("barbeariafaccin")
-DATABASES+=("casafoz")
-DATABASES+=("cemel")
-DATABASES+=("churrascariapremium")
-DATABASES+=("conceitoarquitetura")
-DATABASES+=("construfour")
-DATABASES+=("crowtech")
-DATABASES+=("donfrances")
-DATABASES+=("estacaojk")
-DATABASES+=("hartman")
-DATABASES+=("ifcforest")
-DATABASES+=("ikigai")
-DATABASES+=("integralab")
-DATABASES+=("kempler")
-DATABASES+=("magnitude")
-DATABASES+=("maskking")
-DATABASES+=("natucci")
-DATABASES+=("noelifaccin")
-DATABASES+=("ouroverde")
-DATABASES+=("preventina")
-DATABASES+=("publicarpaineis")
-DATABASES+=("worldofvape")
+# Lista de bases de dados para backup
+DATABASES=("banco1" "banco2" "banco3" "banco4" "banco5" "banco6" "banco7" "banco8" "banco9" "banco10")
 
 # Cria o diretório de backup se não existir
 mkdir -p "$BACKUP_DIR"
 
+# Função para imprimir mensagens de sucesso ou erro
+print_message() {
+    if [ $? -eq 0 ]; then
+        echo "Sucesso: $1"
+    else
+        echo "Erro: $1"
+        exit 1
+    fi
+}
+
 # Loop através das bases de dados
-for DB_NAME in "${DATABASES[@]}"
-do
-    # Gera o nome do arquivo de backup com base na data e nome do banco de dados
-    BACKUP_FILE="$BACKUP_DIR/$DB_NAME-$(date +%Y%m%d%H%M%S).sql"
+for DB_NAME in "${DATABASES[@]}"; do
+    BACKUP_FILE="$BACKUP_DIR/$DB_NAME-$CURRENT_DATE.sql"
 
     # Comando para fazer o backup usando o mysqldump
     mysqldump --user="$DB_USER" --password="$DB_PASSWORD" "$DB_NAME" > "$BACKUP_FILE"
-
-    # Verifica se o comando foi executado com sucesso
-    if [ $? -eq 0 ]; then
-        echo "Backup do banco de dados $DB_NAME criado com sucesso em $BACKUP_FILE"
-    else
-        echo "Erro ao criar o backup do banco de dados $DB_NAME"
-        continue
-    fi
+    print_message "Backup do banco de dados $DB_NAME criado em $BACKUP_FILE"
 done
 
-# Gera o nome do arquivo compactado com base na data
-COMPRESSED_BACKUP_FILE="$BACKUP_PARENT_DIR/backup-$(date +%Y%m%d).tar.gz"
-
 # Compacta a pasta de backup usando o tar e gzip
-tar czf "$COMPRESSED_BACKUP_FILE" -C "$BACKUP_PARENT_DIR" "$(date +%Y%m%d)"
-
-# Verifica se o comando foi executado com sucesso
-if [ $? -eq 0 ]; then
-    echo "Pasta de backup do dia $(date +%Y%m%d) comprimida com sucesso em $COMPRESSED_BACKUP_FILE"
-else
-    echo "Erro ao compactar a pasta de backup do dia $(date +%Y%m%d)"
-fi
+COMPRESSED_BACKUP_FILE="$BACKUP_PARENT_DIR/backup-$CURRENT_DATE.tar.gz"
+tar czf "$COMPRESSED_BACKUP_FILE" -C "$BACKUP_PARENT_DIR" "$CURRENT_DATE"
+print_message "Pasta de backup do dia $CURRENT_DATE comprimida em $COMPRESSED_BACKUP_FILE"
 
 # Remove a pasta de backup original
 rm -r "$BACKUP_DIR"
+print_message "Pasta de backup do dia $CURRENT_DATE removida"
 
-echo "Pasta de backup do dia $(date +%Y%m%d) removida"
+echo "Backup concluído com sucesso para o dia $CURRENT_DATE"

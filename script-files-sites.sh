@@ -1,38 +1,19 @@
 #!/bin/bash
 
-destino="/var/www/backup"
+destino="/diretorio/arquivos/sites/backup"
 
 # Array de sites para backup 
-SITES+=("atvbox")
-SITES+=("agfarmus")
-SITES+=("acifi-paginas")
-SITES+=("altomax")
-SITES+=("barbeariafaccin.com.br")
-SITES+=("bebebistro")
-SITES+=("blocosceramicos")
-SITES+=("casafoz")
-SITES+=("cdn")
-SITES+=("cemel")
-SITES+=("conceitoarquiteturafoz.com.br")
-SITES+=("construfour.com.br")
-SITES+=("crowpy.com")
-SITES+=("crowtech")
-SITES+=("donfrances")
-SITES+=("estacaojkbarbearia.com.br")
-SITES+=("hartman")
-SITES+=("ifcforest.com")
-SITES+=("ikigai")
-SITES+=("intlsystems")
-SITES+=("intregralab")
-SITES+=("kempler")
-SITES+=("magnitude")
-SITES+=("maskking")
-SITES+=("noelifaccin.com.br")
-SITES+=("ouroverde")
-SITES+=("premium")
-SITES+=("preventiva")
-SITES+=("publicar-paineis")
-SITES+=("world-of-vape")
+SITES+=("site1")
+SITES+=("site2")
+SITES+=("site3")
+SITES+=("site4")
+SITES+=("site5")
+SITES+=("site6")
+SITES+=("site7")
+SITES+=("site8")
+SITES+=("site9")
+SITES+=("site10")
+
 
 
 for i in "${SITES[@]}"
