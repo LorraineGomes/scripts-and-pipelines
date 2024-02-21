@@ -1,3 +1,3 @@
 # Pipelines exemplos em laravel
 
-Por motivos de segurança não se encontram em ordem.
+Aqui se encontram pipelines e scripts de backups, não se encontram em ordem por motivos de segurança mas espero que te ajude em algo :)
